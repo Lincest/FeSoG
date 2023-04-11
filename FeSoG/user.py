@@ -86,7 +86,9 @@ class user():
 
     def LDP(self, tensor):
         tensor_mean = torch.abs(torch.mean(tensor))
+        # clip(g, δ)
         tensor = torch.clamp(tensor, min = -self.clip, max = self.clip)
+        # Laplacian(0, λ)
         noise = np.random.laplace(0, tensor_mean * self.laplace_lambda)
         tensor += noise
         return tensor
@@ -100,6 +102,7 @@ class user():
         embedding_item.grad = torch.zeros_like(embedding_item)
 
         self.model.train()
+        # Pseudo Item Labeling (4.3.2)
         sampled_items, sampled_rating = self.negative_sample_item(embedding_item)
         returned_items = self.items + sampled_items
         predicted = self.GNN(embedding_user, embedding_item, sampled_items)
@@ -111,6 +114,7 @@ class user():
             grad = self.LDP(param.grad)
             model_grad.append(grad)
 
+        # Privacy Protection (4.3.1)
         item_grad = self.LDP(embedding_item.grad[returned_items, :])
         returned_users = self.neighbors + [self.id_self]
         user_grad = self.LDP(embedding_user.grad[returned_users, :])

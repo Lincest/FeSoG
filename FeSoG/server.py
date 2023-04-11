@@ -13,7 +13,7 @@ torch.multiprocessing.set_sharing_strategy('file_system')
 class server():
     def __init__(self, user_list, user_batch, users, items, embed_size, lr, device, rating_max, rating_min, weight_decay):
         self.user_list_with_coldstart = user_list
-        self.user_list = self.generate_user_list(self.user_list_with_coldstart)
+        self.user_list = self.generate_user_list(self.user_list_with_coldstart) # 所有item > 0的user
         self.batch_size = user_batch
         self.user_embedding = torch.randn(len(users), embed_size).share_memory_()
         self.item_embedding = torch.randn(len(items), embed_size).share_memory_()
