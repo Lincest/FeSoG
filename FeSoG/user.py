@@ -94,14 +94,15 @@ class user():
         return tensor
 
     def train(self, embedding_user, embedding_item):
-        embedding_user = torch.clone(embedding_user).detach()
+        embedding_user = torch.clone(embedding_user).detach() # detach: 不追踪梯度
         embedding_item = torch.clone(embedding_item).detach()
         embedding_user.requires_grad = True
         embedding_item.requires_grad = True
         embedding_user.grad = torch.zeros_like(embedding_user)
         embedding_item.grad = torch.zeros_like(embedding_item)
 
-        self.model.train()
+        self.model.train() # self.model = copy.deepcopy(global.model)
+
         # Pseudo Item Labeling (4.3.2)
         sampled_items, sampled_rating = self.negative_sample_item(embedding_item)
         returned_items = self.items + sampled_items

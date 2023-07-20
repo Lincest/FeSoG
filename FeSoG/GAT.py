@@ -13,7 +13,7 @@ class GraphAttentionLayer(nn.Module):
         self.alpha = alpha
 
         self.W = nn.Parameter(torch.empty(size = (in_features, out_features)))
-        nn.init.xavier_uniform_(self.W.data)
+        nn.init.xavier_uniform_(self.W.data) # xavier 初始化
         self.a = nn.Parameter(torch.empty(size = (2 * out_features, 1)))
         nn.init.xavier_uniform_(self.a.data)
         self.W_1 = nn.Parameter(torch.randn(in_features, out_features))

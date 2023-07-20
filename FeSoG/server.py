@@ -95,9 +95,9 @@ class server():
 
     def train(self):
         parameter_list = []
-        users = sample(self.user_list, self.batch_size)
+        users = sample(self.user_list, self.batch_size) # random.sample
         # print('distribute')
-        self.distribute(users)
+        self.distribute(users) # clients(user) 更新本地模型
 
         for user in users:
             parameter_list.append(user.train(self.user_embedding, self.item_embedding))

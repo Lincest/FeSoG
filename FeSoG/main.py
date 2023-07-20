@@ -16,7 +16,7 @@ warnings.filterwarnings('ignore')
 parser = argparse.ArgumentParser(description="args for FedGNN")
 parser.add_argument('--embed_size', type=int, default=8)
 parser.add_argument('--lr', type=float, default = 0.1)
-parser.add_argument('--data', default='filmtrust')
+parser.add_argument('--data', default='filmtrust') # ciao, epinions, filmtrust
 parser.add_argument('--user_batch', type=int, default=256)
 parser.add_argument('--clip', type=float, default = 0.3)
 parser.add_argument('--laplace_lambda', type=float, default = 0.1)
@@ -33,6 +33,7 @@ device = torch.device('cpu')
 if args.device != 'cpu':
     device = torch.device('cuda:0')
 
+# data = [(key, item, rate), ..]
 def processing_valid_data(valid_data):
     res = []
     for key in valid_data.keys():
